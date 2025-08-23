@@ -1,0 +1,84 @@
+﻿@model IEnumerable<FootballBetting.Models.Match>
+@{
+    ViewData["Title"] = "Football Matches";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="display-4"><i class="fas fa-futbol"></i> Football Betting Platform</h1>
+        <p class="lead">Welcome to the ultimate football prediction platform! Make your predictions and compete with
+            other users.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2><i class="fas fa-calendar-alt"></i> Upcoming Matches</h2>
+        @if (Model.Any())
+        {
+            <div class="row">
+                @foreach (var match in Model)
+                {
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-header bg-primary text-white text-center">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-clock"></i> @match.MatchDate.ToString("MMM dd, yyyy - HH:mm")
+                                </h6>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <h6 class="mb-1">@match.HomeTeam.Name</h6>
+                                        <small class="text-muted">Home</small>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-primary">VS</h4>
+                                        @if (match.IsCompleted)
+                                        {
+                                            <div class="mt-2">
+                                                <span class="badge bg-success">
+                                                    @match.HomeScore - @match.AwayScore
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="col-4">
+                                        <h6 class="mb-1">@match.AwayTeam.Name</h6>
+                                        <small class="text-muted">Away</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center">
+                                @if (!match.IsCompleted)
+                                {
+                                    @if (Context.Session.GetInt32("UserId") != null)
+                                    {
+                                        <a asp-controller="Prediction" asp-action="Create" asp-route-matchId="@match.Id"
+                                            class="btn btn-success btn-sm">
+                                            <i class="fas fa-chart-line"></i> Make Prediction
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <small class="text-muted">Login to make predictions</small>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Match Completed</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No matches available at the moment.
+            </div>
+        }
+    </div>
+</div>

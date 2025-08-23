@@ -1,0 +1,73 @@
+@model IEnumerable<FootballBetting.Models.ViewModels.LeaderboardViewModel>
+@{
+    ViewData["Title"] = "Leaderboard";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1><i class="fas fa-trophy text-warning"></i> Leaderboard</h1>
+        <p class="lead">See how you rank against other players!</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th><i class="fas fa-medal"></i> Position</th>
+                            <th><i class="fas fa-user"></i> Name</th>
+                            <th><i class="fas fa-envelope"></i> Email</th>
+                            <th><i class="fas fa-star"></i> Points</th>
+                            <th><i class="fas fa-chart-bar"></i> Predictions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr class="@(user.Position <= 3 ? "table-warning" : "")">
+                                <td>
+                                    @if (user.Position == 1)
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fas fa-crown"></i> #@user.Position
+                                        </span>
+                                    }
+                                    else if (user.Position == 2)
+                                    {
+                                        <span class="badge bg-secondary">
+                                            <i class="fas fa-medal"></i> #@user.Position
+                                        </span>
+                                    }
+                                    else if (user.Position == 3)
+                                    {
+                                        <span class="badge bg-warning">
+                                            <i class="fas fa-award"></i> #@user.Position
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-primary">#@user.Position</span>
+                                    }
+                                </td>
+                                <td><strong>@user.FirstName @user.LastName</strong></td>
+                                <td>@user.Email</td>
+                                <td><span class="badge bg-success fs-6">@user.Points</span></td>
+                                <td>@user.NumberOfPredictions</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No users have made predictions yet.
+            </div>
+        }
+    </div>
+</div>

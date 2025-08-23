@@ -1,0 +1,83 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+
+/* Custom styles for football betting */
+.match-card {
+    transition: transform 0.2s;
+}
+
+.match-card:hover {
+    transform: translateY(-5px);
+}
+
+.points-badge {
+    font-size: 1.1em;
+}
+
+.leaderboard-gold {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+}
+
+.leaderboard-silver {
+    background: linear-gradient(45deg, #C0C0C0, #A0A0A0);
+}
+
+.leaderboard-bronze {
+    background: linear-gradient(45deg, #CD7F32, #B87333);
+}
+
+.prediction-summary {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    border-radius: 25px;
+}
+
+.alert {
+    border-radius: 10px;
+}
+
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}

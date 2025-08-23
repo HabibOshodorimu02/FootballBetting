@@ -1,0 +1,81 @@
+@model FootballBetting.Models.Match
+@{
+    ViewData["Title"] = "Update Match Result";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark text-center">
+                <h3><i class="fas fa-edit"></i> Update Match Result</h3>
+            </div>
+            <div class="card-body">
+                <!-- Match Information -->
+                <div class="text-center mb-4">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <h4>@Model.HomeTeam.Name</h4>
+                            <small class="text-muted">Home Team</small>
+                        </div>
+                        <div class="col-4">
+                            <h3 class="text-primary">VS</h3>
+                            <small class="text-muted">@Model.MatchDate.ToString("MMM dd, yyyy")</small>
+                        </div>
+                        <div class="col-4">
+                            <h4>@Model.AwayTeam.Name</h4>
+                            <small class="text-muted">Away Team</small>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-action="UpdateResult" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="homeScore" class="form-label">
+                                <i class="fas fa-home"></i> <strong>@Model.HomeTeam.Name Score</strong>
+                            </label>
+                            <select name="homeScore" id="homeScore" class="form-select" required>
+                                <option value="">-- Select Score --</option>
+                                @for (int i = 0; i <= 10; i++)
+                                {
+                                    <option value="@i" selected="@(Model.HomeScore == i)">@i</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="awayScore" class="form-label">
+                                <i class="fas fa-plane"></i> <strong>@Model.AwayTeam.Name Score</strong>
+                            </label>
+                            <select name="awayScore" id="awayScore" class="form-select" required>
+                                <option value="">-- Select Score --</option>
+                                @for (int i = 0; i <= 10; i++)
+                                {
+                                    <option value="@i" selected="@(Model.AwayScore == i)">@i</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <h6><i class="fas fa-exclamation-triangle"></i> Important:</h6>
+                        <p class="mb-0">
+                            Updating this result will automatically process all predictions for this match
+                            and award points to users based on their predictions.
+                        </p>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Update Result & Process Predictions
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

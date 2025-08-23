@@ -1,0 +1,103 @@
+@model FootballBetting.Models.ViewModels.PredictionViewModel
+@{
+    ViewData["Title"] = "Make Prediction";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center">
+                <h3><i class="fas fa-chart-line"></i> Make Your Prediction</h3>
+            </div>
+            <div class="card-body">
+                <!-- Match Information -->
+                <div class="text-center mb-4">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <h4>@Model.HomeTeam</h4>
+                            <small class="text-muted">Home Team</small>
+                        </div>
+                        <div class="col-4">
+                            <h3 class="text-primary">VS</h3>
+                            <small class="text-muted">@Model.MatchDate.ToString("MMM dd, yyyy")</small>
+                        </div>
+                        <div class="col-4">
+                            <h4>@Model.AwayTeam</h4>
+                            <small class="text-muted">Away Team</small>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-action="Create" method="post">
+                    <input type="hidden" asp-for="MatchId" />
+
+                    <div class="mb-4">
+                        <label asp-for="PredictedOutcome" class="form-label">
+                            <i class="fas fa-trophy"></i> <strong>Predicted Outcome</strong>
+                        </label>
+                        <select asp-for="PredictedOutcome" class="form-select" required>
+                            <option value="">-- Select Outcome --</option>
+                            <option value="Home Win">Home Win (@Model.HomeTeam) - 2 points</option>
+                            <option value="Away Win">Away Win (@Model.AwayTeam) - 3 points</option>
+                            <option value="Draw">Draw - 5 points</option>
+                        </select>
+                        <span asp-validation-for="PredictedOutcome" class="text-danger"></span>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="PredictedHomeScore" class="form-label">
+                                <i class="fas fa-home"></i> <strong>@Model.HomeTeam Score</strong>
+                            </label>
+                            <select asp-for="PredictedHomeScore" class="form-select" required>
+                                <option value="">-- Select Score --</option>
+                                @for (int i = 0; i <= 10; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                            <span asp-validation-for="PredictedHomeScore" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PredictedAwayScore" class="form-label">
+                                <i class="fas fa-plane"></i> <strong>@Model.AwayTeam Score</strong>
+                            </label>
+                            <select asp-for="PredictedAwayScore" class="form-select" required>
+                                <option value="">-- Select Score --</option>
+                                @for (int i = 0; i <= 10; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                            <span asp-validation-for="PredictedAwayScore" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-info-circle"></i> Scoring System:</h6>
+                        <ul class="mb-0">
+                            <li><strong>Correct Outcome:</strong> 2-5 points (depending on outcome)</li>
+                            <li><strong>Exact Score:</strong> Additional 10 points</li>
+                            <li><strong>Wrong Prediction:</strong> 0 points</li>
+                        </ul>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Submit Prediction
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
