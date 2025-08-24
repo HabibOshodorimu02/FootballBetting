@@ -1,4 +1,5 @@
 @model FootballBetting.Models.ViewModels.PredictionViewModel
+
 @{
     ViewData["Title"] = "Make Prediction";
 }
@@ -31,6 +32,10 @@
                 <form asp-action="Create" method="post">
                     <input type="hidden" asp-for="MatchId" />
 
+                    <!-- Validation Summary -->
+                    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                    <!-- Predicted Outcome -->
                     <div class="mb-4">
                         <label asp-for="PredictedOutcome" class="form-label">
                             <i class="fas fa-trophy"></i> <strong>Predicted Outcome</strong>
@@ -44,6 +49,7 @@
                         <span asp-validation-for="PredictedOutcome" class="text-danger"></span>
                     </div>
 
+                    <!-- Predicted Scores -->
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label asp-for="PredictedHomeScore" class="form-label">
@@ -73,16 +79,27 @@
                         </div>
                     </div>
 
-                    <div class="alert alert-info">
+                    <!-- Live Score Preview -->
+                    <div id="scorePreview" class="alert alert-secondary text-center d-none">
+                        <strong>Prediction Preview:</strong>
+                        <span id="homeTeam">@Model.HomeTeam</span>
+                        <span id="homeScore"></span> -
+                        <span id="awayScore"></span>
+                        <span id="awayTeam">@Model.AwayTeam</span>
+                    </div>
+
+                    <!-- Scoring System Info -->
+                    <div class="alert alert-info mt-3">
                         <h6><i class="fas fa-info-circle"></i> Scoring System:</h6>
                         <ul class="mb-0">
-                            <li><strong>Correct Outcome:</strong> 2-5 points (depending on outcome)</li>
+                            <li><strong>Correct Outcome:</strong> 2–5 points (depending on outcome)</li>
                             <li><strong>Exact Score:</strong> Additional 10 points</li>
                             <li><strong>Wrong Prediction:</strong> 0 points</li>
                         </ul>
                     </div>
 
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <!-- Action Buttons -->
+                    <div class="btn-group float-end mt-3" role="group">
                         <a asp-action="Index" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Back
                         </a>
@@ -100,4 +117,24 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const home = document.querySelector("[name='PredictedHomeScore']");
+            const away = document.querySelector("[name='PredictedAwayScore']");
+            const preview = document.getElementById("scorePreview");
+            const homeScore = document.getElementById("homeScore");
+            const awayScore = document.getElementById("awayScore");
+
+            function updatePreview() {
+                if (home.value && away.value) {
+                    homeScore.textContent = home.value;
+                    awayScore.textContent = away.value;
+                    preview.classList.remove("d-none");
+                }
+            }
+
+            home.addEventListener("change", updatePreview);
+            away.addEventListener("change", updatePreview);
+        });
+    </script>
 }
